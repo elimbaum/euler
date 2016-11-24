@@ -1,0 +1,20 @@
+Euler 34
+Digit Factorials
+
+While working on this problem, the basic logic struck me as being oddly familiar. Indeed, it is quite similar to problem 30, digit fifth powers:
+
+30: "Find the sum of all the numbers that can be written as the sum of fifth powers of their digits."
+34: "Find the sum of all numbers [that can be written as] the sum of the factorial of their digits."
+
+Same problem. Therefore, same code.
+
+I am copying my code from problem 30, and modifying only the initial array-filling code to now create a table of digit factorials.
+
+The maximum is now 6 * 9! = 2177280. Same logic to find this one: 10^n - 1 = 9! * n; n = 6.36
+
+The minimum is now 10, because n < 10 are not sums.
+
+
+Interesting: the only numbers that qualify are 145 and 40585. But the maximum is fifty times larger... The regular program takes about 170ms. But with a max of 50000, the answer is found within 2 ms. Can I cut down this upper bound?
+
+I can change it to 999999 (10^7 - 1), instead of using the factorial.

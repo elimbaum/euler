@@ -1,0 +1,51 @@
+Euler 19
+Counting Sundays
+
+Given:
+1 Jan 1900 was a Monday
+Leap years: if div 4 or 400, but not 100
+Month Lengths:
+	Jan	31
+	Feb	28/29L
+	Mar	31
+	Apr	30
+	May	31
+	Jun	30
+	Jul	31
+	Aug	31
+	Sep	30
+	Oct	31
+	Nov	30
+	Dec	31
+
+Problem: How many Sundays fell on the first of the month from 1 Jan 1901 to 31 Dec 2000 (the twentieth century).
+
+The key is: Mod 7.
+Assign each letter a number: Sunday = 0, Saturday = 6
+Day mod 7 = day of week.
+
+1900 was NOT a leap year. Therefore it had 365 days.
+1 Jan 1901 = 1 Jan 1900 + 365
+365 % 7 = 1.
+Therefore 1 Jan 1901 was a Tuesday
+
+Next: find series of months that have multiple of 7 days.
+We need a way to get out of any month (i.e. if we are currently @ September, we need to advance by some multiple of 7)
+	Jan-Feb-March (leap): 91
+	Jan -> Sep (not leap): 273
+* NO NO NO *
+This is cheating. 
+
+The computer needs to do this.
+
+1) Find exit routes for each month (series with length mod 7), for each leap and normal years. Don't forget to loop around, esp. with FUTURE leap years. Don't check all months; follow the pattern through. May have a shorter period than the theoretical maximum.
+
+Need to do it potentially 4 times, depending on loop year position.
+
+2) Loop through the century using the assembled array.
+
+
+To make it easier, I may start counting IN 1900, but not count them towards the total (as opposed to starting on Tu 1 Jan 1991)
+
+
+[I ended up not memoizing it... too much to deal with with leap year locations. current implementation runs ~1.5ms per loop in python.]

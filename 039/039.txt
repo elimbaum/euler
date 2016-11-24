@@ -1,0 +1,78 @@
+Euler 39
+Integer right triangles
+
+Perimeter [<= 1000] such that number of integer right triangles are maximized.
+
+P = a + b + c
+  = a + b + √(a^2 + b^2)
+
+If only I could differentiate...
+
+Looking at the graph of the above, it appears to increase very steadily; therefore no tricks. In fact, for a, b > 0, the graph appears nearly linear for any given value of one variable. This means — on the most simplistic level - I am effectively solving a diophantine linear system of equations. The region I must check forms an odd curve (intersection of plane P = 1000 with the equation)... almost like a single-sided hyperbola.
+
+Interesting note: the equation tends towards 2(a + b).
+
+ACTUALLY (weird...) when a ~= b, the equation tends towards (1/√2 + 1)(a + b). [Approx 1.71] At the extrema (a >> b or a << b), the constant tends towards to 2.
+
+[Therefore, I might say that a right triangle with legs a and b has perimeter c(a + b), where (1/√2 + 1) <= c <= 2 
+
+I don't know if any of this helps, but it is interesting.
+
+[[ Actually, this value can be derived rather easily. derp. ]]
+
+But if I use this:
+
+k(a + b) = 1000
+a + b = 500 to 585.(78643756)
+
+
+====
+
+But all this math is just turning an equation of two unknowns into another equation of two different unknowns.
+
+If I loop through p, a:
+P = a + b + √(a^2 + b^2
+b = [P^2 - 2aP] / [2P - 2a]
+
+b = [P(P - 2a)] / [2(P - a)]
+
+so I need to check if b is an integer.
+
+
+===
+
+Brute force solution finds the answer, but in half a second... But I was doing some silly things (and getting negative side lengths). Simply adding in this check speeds it up to less than 400 ms.
+
+What if I went backwards? Loop through a, b; find perimeter, increment array. I'll try it.
+... but it's still about 400ms.
+
+It looks like (from the forum) that the serious optimizations come from using the pythagorean triple generating formulas. I used these a while back for one of the early eulers... someone's from the forum runs in < 1ms.
+
+I'll try that.
+
+===
+
+integers n, m; n > m:
+(n^2 - m^2, 2nm, n^2 + m^2) is a triple.
+p = n^2 - m^2 + 2nm + n^2 + m^2
+  = 2n^2 + 2nm
+  = 2n(n + m)
+
+hmm, didn't quite speed up much.
+
+I wasn't checking multiples of the given triple... i.e. for 3,4,5... don't forget to check 6,8,10 and friends. Faster this way.
+
+Forum uses: while 4 * m^2 < 1000
+m ^ 2 < 250
+m < sqrt(250)
+
+Now, thanks to forum, 0.25 ms. 2000 times faster than my original... :(
+
+====
+
+Let that show... it is better to GENERATE few than to CHECK many. The fast algorithm does 49 iterations while my original does almost 500000.
+
+wow.
+
+
+[[ also, this problem is very closely related to problem 009. Just harder. ]]

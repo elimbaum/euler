@@ -1,0 +1,40 @@
+Project Euler 12
+
+What is the first triangular number to have greater than 500 divisors?
+
+Given a number n, its prime factorization is
+p_1^x_1 * p_2^x_2 * p_3^x_3 ...
+where p_n is a prime and x_n is the exponent on it.
+In addition, n has
+(x_1 + 1)(x_2 + 1)(x_3 + 1) ...
+divisors.
+
+Therefore, since we are looking for a number with more than 500 divisors, a lower bound can be computer.
+
+500	= 2 * 2 * 5 * 5 * 5
+	= (x_1 + 1)(x_2 + 1)(x_3 + 1)(x_4 + 1)(x_5 + 1)
+
+x = {1, 1, 4, 4, 4}
+
+To get the smallest number possible, small primes are given large exponents:
+
+2^4 * 3^4 * 5^4 * 7^1 * 11^1 = 62 370 000
+				(the first integer to have 500 divisors)
+
+The closest triangular number n = 11169; T_n = 62 378 865.
+
+The search will begin here; each successive triangular number will be factored through trial division and its number of divisors determined.
+
+
+
+-- Post-solving notes:
+
+Rather than trial divide against all odds, first generate a list of primes. As an upper bound, use the square root of the max integer value (32 bit), which is 65536. Only 6542 primes there.
+
+HOWEVER: The overview points out that since all triangular numbers are of the form
+n(n+1)/2
+Each component can be factored individually (which ever one is even, divide by two).
+
+This should run in only a few ms.
+
+[See problem overview]

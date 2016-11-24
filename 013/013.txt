@@ -1,0 +1,9 @@
+Project Euler #13
+
+Large Sum
+
+In this problem, we are given 100 quantity 50-digit numbers and asked to find the sum. However the largest common integer data type (64 bits) can only hold up to ~10^19. Therefore this sum cannot be found directly.
+
+However, the problem only asks for the first 10 digits of the sum, not the entire sum (which would be 51 digits long). 10 digits — or 10^10 - easily fits within the 64 bit integer. But we must also take carrying into consideration.
+
+Through some thinking (using smaller numbers), it can be determined that only a couple of digits are necessary. For a list of 100 numbers, only 1 digit past the ten asked for need to be considered. In conclusion, the 50 digit numbers can be immediately and unconditionally truncated to 11-digit numbers, summed, and once more truncated to the required 10 digits.

@@ -1,0 +1,26 @@
+Project Euler 14
+
+Longest Collatz Sequence
+
+
++ Because of the even-half rule, we can start checking at 500k (halfway point). The longest chain cannot start below 500k, because if it did, we could multiply the starting number by two.
+
++ Because all odd numbers become even numbers through the 3n+1 rule, the odd rule can be compressed into (3n+1)/2, for which two steps are counted.
+
+
+All collatz sequences MUST end like this:
+
+64 - 32 - 16 - 8 - 4 - 2 - 1
+
+OR
+
+10 - 5 - 16 - 8 - 4 - 2 - 1
+
+(both 6 steps). So if we see 10 or 64: stop and add 6 steps.
+
+Not implemented now because it would conflict with the odd-even combination (it might not pick up a 10 or a 64).
+
+
+The forum points out that only odd numbers > 1/2 max need to be checked... they will be reached eventually.
+
+Forum also mentions storing already-computed values and checking the table rather than recalculating. (you would store the length from that number). goes off of my 64-10 idea. THIS SHOULD BE USED IN THE FUTURE.

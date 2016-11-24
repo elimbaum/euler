@@ -1,0 +1,59 @@
+Euler 023
+Non-abundant sums
+
+Written in Java. The full eclipse project resides elsewhere, but a copy of the solution code is in this directory.
+
+Given: n <= 28123
+
+First, create a list of abundant numbers below 28123.
+Then, check if all n can be created as a sum of two abundant numbers.
+If not, add to another list.
+Print the sum of that list.
+
+
+To be clear: abundant is when (sum of proper divisors of n) > n
+So prime numbers are deficient.
+
+The smallest abundant number is 12, d=1,2,3,4,6 -> 16
+
+I ~think~ only even numbers can be abundant, because with two, half of all the divisors are lost. **NOPE, NOT TRUE. Removing from program. checking all ints.
+
+*** add in 1 through 23 at the start because 12 is the smallest abundant number.
+
+How to efficiently check for sum? I could do a brute force loop, but have to loop through twice (check every pair)... so like a triangle. But that is still (with nearly 7000 abundants) around 49 million different pairs...
+
+So binary search is probably the best, look for n / 2. Since both numbers are coming from the same list, we can assign on direction of movement to each side.
+
+To clarify:
+
+a + b = n
+
+a, b are initially equal, as close to n / 2 as possible. a + b is too large? move to the next smallest a. Too small? move to the next largest b. Because I am starting at the same position in the list, in this way, all values will be visited.
+
+AHH but from OEIS (and I've confirmed it), for the nth abundant number is close to 4n. So if I am looking for n in a list, I can first go to n/4.
+
+psst, arraylist has an indexof() function. but that would be cheating! (and anyway it is a linear search.)
+
+NOPE NOPE NOPE! We need to find numbers that *CANNOT* be written as two abundants. Which means EVERY COMBINATION must be checked. Oh well.
+
+Well actually I only need to check up to n.
+
+As expected, runs slowly... and gets *much* slower for larger n. takes about 40 seconds
+
+ANSWER IS 4179871
+
+
+==== post solve
+
+Looking at the thread, one person instead created a boolean array such that an element was true if its index could be made by abundants. Only requires looping through the array twice in the check stage.
+
+ooh, much faster... ~115 ms. HAHA. That's like a 350x speed increase. The issue was that before, I was checking sums which had already been computed!
+
+Also technically, since the creation of the abundant list (prime factorization and all that jazz) didn't change (that takes about 21ms), the modified part went from about 40s to less than 100ms! So the part that I'm concerned with got 400x faster. Cool.
+
+Some small speed improvements in the creation of the boolean abundant sums list.
+
+BY THE WAY, this is memoization.
+
+Odd timing differences with break statements... asked on StackOverflow to figure out.
+LATER: tested with 256 iterations, b = size is slower. So that's just an oddity with the compiler optimization in this scenario.

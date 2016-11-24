@@ -1,0 +1,33 @@
+Euler 028
+Number Spiral Diagonals
+
+I immediately suspected I wouldn't need to actually do this manually in program (i.e. generate the spiral). Indeed, the entire program can be condensed to a *single cubic equation*.
+
+I noticed that the sum of each column's diagonals is symmetric. For example (neglecting the central 1), the left most column sums to 38 while the inner-left column sums to 12. This is true, as well, on the right.
+
+The equation governing these column-sums is:
+8x^2 + 2x + 2
+Where x is the distance from the center.
+
+Thus, to find the total sum:
+∑ 8x^2 + 2x + 2 from 1 to n
+
+where n is (r - 1)/2 where r is the number of rows.
+
+Using Gauss's formulae I find the above to be equivalent to
+n/3 (8n^2 + 15n + 13)
+
+Since this is only half of the diagonals, double it and add 1:
+2n/3 (8n^2 + 15n + 13) + 1
+
+Substitute (r-1)/2 for n:
+1/6(4r^3 + 3r^2 + 8r - 9)
+
+...where r is the number of rows (i.e. dimension of the grid). For the example, r=5. I am looking for r=1001.
+
+Probably, for efficiency, it would best to do:
+
+(r (r (4r + 3) + 8) - 9) / 6
+
+
+Looks like many on euler forums figure out various similar equations.

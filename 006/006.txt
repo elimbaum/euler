@@ -1,0 +1,27 @@
+Project Euler 006
+
+{Done on TI-84}
+
+Square of Sum - Sum of squares
+
+
+(n1 + n2 + n3 + ...)^2 - (n1^2 + n2^2 + n3^2 + ...)
+square of sum	       - sum of squares
+
+
+Expanding:
+
+= 2(n1n2 + n1n3 + n2n3 + ...)
+(double the sum of product of every pair of n)
+
+factoring:
+
+= 2(n1(n2 + n3 + ...) + n2(n3 + n4 + ...) + n3(n4 + n5 + ...) + ...)
+
+
+
+So this is what needs to be done. Find sum of all n. Multiply, each time subtract the first value. Double at end.
+
+
+
+=== Improved answer, from overview: find a cubic for sum of squares.

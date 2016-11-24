@@ -1,0 +1,196 @@
+Euler 027
+Quadratic Primes
+
+n^2 + n + 41 produces primes from n = 0 .. 39
+n^2 - 79n + 1601 produces primes from n = 0 .. 79
+
+Problem: find n^2 + an + b such that |a|, |b| < 1000 and the quadratic produces the maximum number of primes (Give the product of the coefficients as the answer).
+
+===
+
+When the two example quadratics fail, they both give 1681 (= 41^2). This is not a coincidence: the two quadratics are simply horizontal translations of each other. They are both of the form
+
+(n - k/2)^2 + 163/4
+
+where k must be odd in order to produce primes. For the second example, (k = 79) this is the maximum number of primes that can be obtained (as, for that function, f(-1) = 1681). For the first example, k = -1. 
+
+So to get a, b within the constraints, I could shift the function to the left (or maybe negatives, but probably not, as this problem seems to be y-axis symmetric).
+
+Or: I could look for a new vertical shift! I doubt 163/4 (= 40.75) is special. (EDIT/TBT post-solve: LOL, it is special).
+
+Making some initial observations: 40.75 is .25 less than a prime, and is also a prime/4.
+
+I'll try with 36.75 (nope), 42.75 (nope), 157/4 = 39.25 (non integers), and 167/4 = 41.75 (nope), and see if they produce a string of primes. If so, the problem then becomes which value of the vertical shift produces the longest string of primes. Then the k value can be adjusted.
+
+After testing - none of those worked. But I did establish that the vertical shift must have 0.75 as its decimal in order to reliably produces integers - thus vertical shift = 3 (mod 4). So I'm now looking for some integer v that I can plug into (v + 3/4) or (v - 1/4), the quantity which will be used as the vertical shift. Using the latter case (v - 1/4), I suspect v must either be odd or prime.
+
+Using some choice primes, I can't seem to get any significant strings of primes (besides p = 41).
+
+Another constraint:
+Due to the 1/2 present in the template quadratic, it's vertex will always be a half; the two integers around will it will have equal value.
+Due to the quadratic having an a value (leading coefficient) of 1, the next values on each side of those equal will be two more than that.
+
+It is worth noting at this point that the minimum integer value of the quadratic (that is, the one which is repeated) is equal to one quarter more than the vertical shift value; equal to the integer base vertical shift value.
+
+Because the minimum value, and the next integer value after that, are separated by two, and I am trying to generate primes, these two numbers must also be prime. If two numbers separated by two are both prime,
+
+*then they are twin primes*
+
+the lower of which must be 0.25 more than the vertical shift.
+
+The vertical shift must be less than 1000, as the c value can never be lower than the vertical shift (when a is positive)
+
+On second thought, I can't seem to find small twin primes that also create large numbers of primes. 
+
+Time for some algebra 2:
+(x-k/2)^2 + v
+x^2 - kx + k^2/4 + v
+thus the c value (b per euler) equals (k^2/4 + v)
+
+|a| < 1000
+|b| < 1000
+
+|k| < 1000 ... -1000 < k < 1000
+k^2 < 1000^2
+k^2/4 < 250000
+
+|k^2/4 + v| < 1000
+-1000 < k^2/4 + v < 1000
+k^2/4 + v > -1000
+k^2/4 > -1000 - v
+
+k^2/4 + v < 1000
+k^2/4 < 1000 - v
+...
+
+(x + 1/2)^2 + 163/4
+x^2 + x + 1/4 + 163/4
+x^2 + x + 41
+k is -1
+v is 163/4
+
+Algebra doesn't help.
+
+
+===
+
+What I have established:
+I have turned the equation into that of two variables k and v. Effectively: these are the horizontal shift and vertical shift.
+
+HOWEVER: the horizontal shift (also equal to the a value (euler) / b value (quadratic)) is of no consequence when looking for primes. The vertical shift is the main thing of importance.
+
+More thinking: I am looking for a series of increasing primes (not necessarily sequential) in which the prime gap follows the sequence of even numbers gap. Therefore this is:
+
+p_0 +2
+p_1 +4
+p_2 +6
+p_3 +8
+...
+
+(constant second difference = +2)
+As in both examples, the base prime is 41:
+41 +2
+43 +4
+47 +6
+53 +8
+61 +10
+71 +12
+...
+
+all of which are prime.
+
+So now the question becomes: does such a sequence exist at any other starting primes *besides* 41?
+
+If yes- find them (and the corresponding v).
+If no- v = 163/4; only have to optimize the k value.
+
+I am not necessarily looking for where the CONSECUTIVE prime gap is the even-number sequence, because I can jump (and most likely will) over many primes.
+
+Hmmm, some interesting things come out of that (these observations apply only to k > about 10):
+
++ Cannot start on primes ending in 3. The second prime will then be divisible by 5.
++ No primes end in 5.
++ Cannot start on primes ending in 9. [mod 10]: 9+2=1+4=5
++ MAYBE could start on primes ending in 7. Experiment shows that has a long (EDIT: actually infinite...) chain length
+
+COOL i got somewhere:
+=== I can only start on twin primes ending in 1. Maybe 7 ===
+I'm assuming that the small primes won't work (2 3 5 7)
+
+Wait, so this is easy: after [manually] checking the small primes, I can set v to values of (11 + 10n) for integers >= 0. Then check the primality of v.
+
+From quick thinking, it looks like that's not going to be very many of them... under 100, only 21, 51, 81... all divisible by 3.
+no... 91 is 7*13. That's annoying. But that reduces my workload tenfold. Coupled with an efficient prime-check algorithm, I should be good.
+
+But then the issue is to find the length of primes... even more checking from 0..n on each generated quadratic. But better than it was before.
+
+I'll also somehow need to optimize the horizontal shift.  So much vagueness... much work to be done.
+
+Maybe for now, I'll just write the first part (finding number of primes generated from vertex (0) on... total number is that times two).
+
+I'm also not considering negative values of v... those *might* be a factor. Hopefully not.
+
+
+Running some tests:
+I ran both the full interval (0..1000 for v) as well as the discrete intervals (11+10n). 41 is still the winner with about 40 primes (depending on where I start).
+
+Actually, from zero to one million, only 17 (17p), 41 (41p), and 844427 (11p) generate over ten primes. The rest are generally two or three. Very few are even above 5.
+
+I believe that these quadratics are symmetric. Therefore, with a k value of -1 (effectively centered), they produce n primes, then at most, they can produce 2n primes.
+
+
+
+
+THIS MEANS [LOL]: Since 41 is the best, I am using the same equation as they give... just with a different horizontal shift to fit under 1000... i.e. the biggest one that fits.
+~~~ v = 41 - 0.25 = 40.75 (as it's always been) ~~~
+
+From before:
+|k^2/4 + v| < 1000
+-1000 < k^2/4 + v < 1000
+-1000 < k^2/4 + 40.75 < 1000
+-1040.75 < k^2 / 4 < 959.25
+-4163 < k^2 < 3837
+welp, k^2 must be positive, so...
+0 < k^2 < 3837
+0 < k < 61.94352266
+k is an integer:
+0 < k < 61
+
+So I make k=61.
+
+Final equation is (x - 61/2)^2 + 40.75
+In standard form:
+x^2 - 61x + 971
+
+Product of -61 and 971 is
+*** -59231 ***
+
+Now, I'm going to go back and make the program do all of the above math. It'll be super-duper quick.
+
+Also, from the forum... it looks like not too many figured the above stuff out. Most naïvely looped through. lol.
+
+ACTUALLY, I'd like to run through the mod 10s for 1 (11+10n) and 7 (17+10n). I'm adding consecutive evens.
+
+...and both go into a cycle (1 3 7 3 1 and 7 9 3 9 7, respectively), ad infinitum.
+
+So, due to an ADDITION mistake, I made an incorrect assumption... didn't harm my answer, but might have affected a more general solution.
+
+Rewrote my program to now check all ...7s and ...1s. With k values of -1, and testing up to 250 million, only the following values of k produce more than 10 primes:
+11		11 primes
+17		17 primes
+41		41 primes
+844427		11 primes
+51448361	11 primes
+86966771	11 primes
+122983031	11 primes
+180078317	12 primes
+
+(took 2h45m; checking for big primes is slow)
+
+Interesting how there are many 11 primes... and then one 12 prime. Perhaps if I continued I would find more 12s.
+
+ANYWAYS... 41 undeniably wins.
+
+Program runs in about 60 microseconds... it's just doing a bit of arithmetic.
+
+More information: wikipedia informs me that this problem is related to the Heegner Numbers (whose definition I don't understand). But 163 is the highest... and from before, the vertical shift was 163/4... therefore 41 as a base v value is the highest.

@@ -1,0 +1,16 @@
+Euler 031
+Coin sums
+
+How many ways to make 200p using the following coins:
+200p 100p 50p 20p 10p 5p 2p 1p
+
+If only the coins came in multiples of 2... it would be so much easier.
+
+I think I can ignore the 1p coin. Because it will always fill up the remaining space. I just need to find how many combinations are <= 200p.
+
+And to do that, maybe an odometer-style approach. Start off with the minimum combination (in this case, 1x200p), and then each time I decrement, increment others to fill. [i.e. if I remove a 50p, and in 2x20p + 10p]
+
+My solution works... about 64 ms.
+
+
+But oh my the overview solution... using memoization, it runs in < 1ms on my machine. I'll have to read through it a couple times to even understand how it works, however. So beautiful, though...

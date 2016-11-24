@@ -1,0 +1,30 @@
+Euler 30
+Digit fifth powers
+
+I think memoization is the way to go here. I can just store the fifth powers of each digit in an array.
+
+BUT NO: I (falsely) assumed that I only have to check five digit numbers. It appears this is not the case.
+
+Setting the max to one million gives 443839. This is the answer (takes 73 ms), but how do I know there are none higher?
+
+From the forum:
+9^5 = 59049
+Maximum sum = 59049 * number of digits
+M(n) = 59049n
+I am looking for when M(n) >= 10^n (i.e. the numbers are reachable)
+59049n = 10^n
+Solving (numerically) gives 5.51, so 10^5 = 6 digits; max is 6*9^5 = 354294
+
+The forum also points out that I don't need to check repeat numbers: i.e. 9405 will be the same as 4950. Combinations... how to not check duplicate numbers?
+
+A few people did fun things with trees, etc.
+
+
+HOWEVER: if I force the number to be loosely decreasing (i.e. each digit less than or equal to the previous).
+So much for that... went UP to 31 ms. The idea may have worked, but not this implementation. I can't see anything wrong with it.
+
+AHH! I can adjust my start point. Starting at 500,000 brings it down to 17ms. But how do I know how high I can bring the min?
+
+At full optimization, no real speed difference...
+
+moving on.

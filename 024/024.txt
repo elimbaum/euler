@@ -1,0 +1,63 @@
+# Euler 024
+# Lexicographic Permutations
+#
+# What is the 1 000 000 th lexicographic permutation of the digits 0-9?
+#
+# Simplifying, for 3:
+# 012
+# 021
+# 102
+# 120
+# 201
+# 210
+
+6       5               2, 1, (0)
+5       4               2, 0, (0)
+4       3               1, 1, (0)
+3       2               1, 0, (0)
+2       1               0, 1, (0)
+1       0               0, 0, (0)
+
+3 2 1 0
+3 2 0 0
+3 1 1 0
+3 1 0 0
+3 0 1 0
+3 0 0 0
+2 2 1 0
+2 2 0 0
+2 1 1 0
+2 1 0 0
+2 0 1 0
+2 0 0 0
+1 2 1 0
+1 2 0 0
+1 1 1 0
+1 1 0 0
+1 0 1 0
+1 0 0 0
+0 2 1 0
+0 2 0 0
+0 1 1 0
+0 1 0 0
+0 0 1 0
+0 0 0 0
+
+20
+-1
+
+index 19 permutation
+
+19 / 3! = [3]
+19 % 3! = 1
+
+1 / 2! = [0]
+1 % 2! = 1
+
+1 / 1! = [1]
+1 % 1! = 0
+
+[0], implied
+
+
+The general idea is to derive it piece by piece... sort of long division. Figure out which 9! the number lines within, then which 8! the number lies within, etc.

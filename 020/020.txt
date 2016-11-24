@@ -1,0 +1,81 @@
+Euler 20
+Factorial digit sum
+
+∑d(n!) where n = 100
+
+
+First, is there a pattern?
+
+n	n!		∑d(n!)
+1	1		1
+2	2		2
+3	6		6
+4	24		6
+5	120		3
+6	720		9-
+7	5040	9-
+8	40320	9-
+9	362880	27.
+10	3628800	27.
+11			36
+12			27.
+13			27.
+
+*A* pattern, though an odd one... often increases; not always. squares and 3s are popular.
+Repetition of values.
+
+Can't directly compute 100! — too big even for a 64-bit int.
+on the order of 10^158
+
+Need a formulaic approach.
+
+Using something like the sieve of Eratosthenes, I can easily compute the prime factorization of 100!
+to start off, 2^50 because there are 50 multiples of 2 from 0-100.
+
+So the prime factorization (incomplete) is:
+2^50 * 3^33 * 4^25 * ...
+Nope, that doesn't work...
+
+It's actually
+2^97 * 3^48 * 5^24 * 7^16
+100-3, 50-2, 24-1, ???
+	 
+Where did the 16 come from??
+
+Also don't forget that the prime factorization of 100! includes every prime < 100.
+
+
+===FORMULAIC
+
+∑d(n!) =
+	n(n-1)(n-2)(n-3)(n-4) ... (4)(3)(2)(1)
+
+Can't expand that. I think somewhere around 2^30 terms.
+
+The only thing I can know about the number is that it ends in a lot of zeros from all of the pairing 5s and 2s.
+
+
+
+
+So the number needs to be stored in a custom array (BCD?). The length of the array needs to be log(x!).
+ln(x!) ~ xlnx - x + 4
+(I added the 4, this makes it always large enough)
+doing the base change:
+
+log(x!) ~ (xlnx - x + 4)/ln(10)
+
+Use this to get the size of the array I will need. Then custom multiplication.
+
+Another problem: multi place carrying.
+
+
+
+=====POST SOLVING
+
+Ideas from the forum: 
+
++ Disregard all multiply by 10; only adds zeroes (24 of them, here)
+ 	(therefore, end at 99!)
++ If carry and all the string length stuff can be changed to while > 0
+
+current running time ~0.046s

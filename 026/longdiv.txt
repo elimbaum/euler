@@ -1,0 +1,69 @@
+Long division by hand
+for experimentation
+Conclusion: look for the power of ten numerator to reappear.
+Length of cycle might be a little short... add in something to do with 1og10
+
+       3225806451612903
+31 \ 100
+      93
+       70
+       62
+        80
+        62
+        180
+        155
+         250
+         248
+           200
+           186
+            140
+            124
+             160
+             155
+               50
+               31
+               190
+               186
+                 40
+                 31
+                  90
+                  62
+                  280
+                  279
+                    100
+                     93
+
+I was looking for when 100 returned. Or, more generally, 10^n for some integer n
+
+       588235294117647
+17 \ 100 (looking for 100 to re-appear)
+      85
+      150
+      136
+       140
+       136
+         40
+         34
+          60
+          51
+           90
+           85
+            50
+            34
+            160
+            153
+              70
+              68
+               20
+               17
+                30
+                17
+                130
+                119
+                 110
+                 102
+                   80
+                   68
+                   120
+                   119
+                     100 DONE

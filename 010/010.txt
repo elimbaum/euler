@@ -1,0 +1,7 @@
+Project Euler 010
+Sum of primes
+
+Find the sum of primes < 2,000,000
+
+Use of sieve of era...
+only need to test up to 1414 (sqrt 2M). Should be pretty fast.

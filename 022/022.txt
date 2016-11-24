@@ -1,0 +1,36 @@
+Euler 022
+Names Scores
+===============
+
+This problem should be done in C.
+
+The bulk of this problem is the lexicographical sorting of the names. There is nothing tricky or clever about calculating "alphabetical scores" or multiplication.
+
+To sort:
+General concept is to *insert* names into their new positions. This does require a moderately inefficient memory-shift, especially if the name is to be inserted towards the beginning of an array (all elements after the insertion point must be shifted down).
+Rather than brute-force checking each position incrementally to find the name's position, a tree-type search can be performed: starting at the midpoint of the filled array (that is, half the number of names in the array), check the position of the current name. Then move halfway between the midpoint and an endpoint; then halfway between that point and another point. In this way, each name can be placed in at worst 12 tests.
+Nope, this assumes that the list is already sorted... I'll just do an inefficient insertion sort.
+
+Unsigned longs must be used for all calculations.
+
+Input from file:
+Dynamically allocated character array. Read until "; if array not big enough, extend. If name is shorter than current array, shrink [?].
+
+Checking comparative alphabetical position:
+Compare ASCII values; look at next if equal. MARI comes before MARIA, etc.
+	actually, string comparison is built in to C so I don't need that.
+
+Issue of how do I store these? I may need to store them all as one big string (null-terminated). For sorting, copy the name and its null, shuffle everything to the previous null.
+I could also store the location of each index... nope (YES that's what I'm doing, with pointers.
+
+OH! I need pointers to pointers. Yippee.
+
+the web points out that I can just swap values, rather than complicated memory-shifting. Actually, I think it comes out to the same number of memory locations anyway. (also, I am not necessarily using contiguous memory)
+
+Alright, insertion sort works!
+
+
+Got the solution - happy with my implementation.
+
+Forum points out that you can get the nameScore while reading from the file and store that somewhere (already looping through; faster, but uses more memory).
+

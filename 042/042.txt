@@ -1,0 +1,10 @@
+Project Euler 042
+Coded Triangle Numbers
+
+It would of course make sense to precompute the triangular numbers. But how high? The longest word in the word list is 14 letters, but a safe upper bound is probably 32 characters.
+
+32 characters, worse case scenario would be all 'Z'... letter code 26 * 32 = 832. This is the maximum sum. This gives 861 as the maximum triangle number... I'll store the first 41 triangle numbers (1 - 861) in an array.
+
+Then to find the sum: just sum the character values, and subtract the ASCII offset multiplied by the length of the word. Look it up in the array with binary search.
+
+Or is there a faster way? probably not. I could reverse the formula and check if it fits the equation, but that's a fair amount of math. So is binary search, though.

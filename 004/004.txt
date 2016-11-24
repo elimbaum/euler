@@ -1,0 +1,78 @@
+PROBLEM:
+
+A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 x 99.
+
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+===============================================
+
+Interestingly, 9009 is 7 x 9 x 11 x 13
+
+So would it be 97 x 99 x 101 x 103? No, that is 99900009 (and it's not 3 digits)
+
+There are no two digit palindromes formed form the product of 1-digit numbers, because all two digit palindromes are of the form x * 11.
+
+For three digits:
+The palindrome is almost definitely 6 digits:
+ABCCBA
+so "algebraically:"
+100001*a + 10010*b + 1100*c
+1<=a<=9
+0<=(b,c)<=9
+
+So (by brute force) only 900 palindromes possible. But then we still would need to factor the palindromes.
+
+Let's factor the expression!
+
+100001 = 11 x 9091
+10010  = 2 x 5 x 7 x 11 x 13
+1100   = 2 x 2 x 5 x 5 x 11
+
+We can factor out an 11:
+11(9091*a + 910*b + 100*c) will be a palindrome for the above inequalities.
+
+That didn't help.
+
+No, it did: this tells us that one of the 3 digit numbers is a multiple of 11-- so we only need to check 3 digit multiples of 11! In addition, because we are looking for the largest, we can just start at 990 (11x90) and work our way down.
+We need to test all combinations:
+So test all 3 digit numbers with 990, then all with 979, then all with 968, etc. (subtract 11 each time)
+
+between the lowest 3-digit multiple of 11 (110, 11x10) and the highest (990, 11x90), there are only 80 numbers to test (for one number). For the others: we need to test all 900 numbers from 100 to 999, inclusive. :(
+
+This brought the number of tests down from 810,000 (900*900) to 72,000 (80*9009). An 11 times reduction!
+Cool!
+
+In addition: I am more likely to find the magic numbers higher, rather than lower. So instead of looping through all 3 digit numbers, I should instead do them at the top:
+a	b
+990	999
+	998
+	997
+	...
+	990
+979	989
+	988
+	...
+	979
+
+etc. I will probably find it faster.
+
+Now how to find if it is a palindrome?
+Get the digits like this:
+
+digit = n % 10
+n = n // 10
+
+and repeat all of that (into an array, maybe)
+We only need to *store* the first three, then compare them with the rest.
+
+
+New mathematical development: all even-digit palindromes are divisible by 11. I will look for a pattern in the quotient. I am therefore assuming (as above) that this largest palindrome will be six digits long.
+
+There are only 900 palindromes. Maybe I will test those, instead of testing all of the possible three digit numbers (72,000 of them)
+
+Also: 997799 is the largest possible palindrome (a bit less than 999^2) so only 898 palindromes exist.
+
+Because factoring is much more difficult than it is to check for palindromes, I will just go through all three digit product numbers and check if they are palindromic.
+
+
+Actual program done at school in VB... and was somehow lost.

@@ -1,0 +1,38 @@
+Euler 37
+Truncatable primes
+
+I thought I could use a sieve. But unfortunately not: no maximum is given. I only know that 11 such primes exist.
+
+Ahh but this is interesting:
+The example given is 3797.
+3797 797 97 7 are all prime.
+3797 379 37 3 are all prime.
+
+This gave five truncatable primes, however: 3797, 797, 97, 379, and 37.
+
+(A side note: of course the digits 0, 2, 4, 5, 6, or 8 may not appear anywhere, as in problem 35. But 2 and 5 actually may appear ONLY in two-digit truncatables, as this would then create a single digit prime)
+
+Anyway: Once I find a truncatable prime, each of its components is also trucatable (by definition), and unless repeat digits come in to play, will most likely be distinct.
+
+4 digit truncatables give 5 other truncatables.
+5 digit truncatables give 7 other truncatables (below)
+
+abcde abcd abc ab a
+abcde bcde cde de e
+
+Worst case scenario (i.e. all duplicates) an n-digit trucatable prime gives (n - 1) other trucatable primes.
+
+This means that, as I need 6 more truncatable primes, the highest I could possibly expect to look is 7 digits: 10 million - 1.
+
+But wait, there's more! If all of the digits were the same (theoretically), then they would be divisible by 11! If I assume that there won't be any repeats, then 5 digits will be more than enough: Check up to 99,999.
+
+This means I can use a sieve! great.
+
+****************
+
+wait... This might be wrong. I am assuming that these subset-truncatables can be truncated from both directions. Not necessarily true. I'll write a brute-force-ish one first.
+
+Or maybe I'll cheat and sieve up to 1 million, and figure out the real upper bound later.
+
+
+After getting the answer with a slightly-sketchy brute-force-ish approach (sieve up to 1M), I see that the highest is about 750,000. Also, it only took 27ms... not bad.

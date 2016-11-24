@@ -1,0 +1,17 @@
+What is the first term in the Fibonacci sequence to contain 1000 digits?
+
+Easy! I think it can be done in O(1) with algebra.
+
+F_n = round(phi^n / sqrt(5)
+F_n ~ phi^n / sqrt(5)
+
+Number of digits in F_n = log_10(F_n)
+log(F_n) = log(phi^n / sqrt(5))
+	 = log(phi^n) - log(sqrt(5))
+	 = n * log(phi) - 1/2 * log(5)
+
+
+1000 - 1= n * log(phi) - 1/2 * log(5)
+       ^ because of digit offset
+
+NOTE: for small n it didn't work... because it should be ceil, not round. Interestingly, it is no longer an issue when n is greater than around 75... an interesting pattern it creates.

@@ -1,0 +1,48 @@
+Euler 33
+Digit Canceling fractions
+
+Create a fraction with two-digit numerator and denominator, that has the same value when one of the digits is "canceled."
+
+First: can the canceled digit have the same place value?
+[10n + a] / [10n + b] = a / b
+10nb + ab = 10na + ab
+10nb = 10na
+Therefore n = 0 or a = b
+
+If n = 0, no canceling occurs (single digit). If a = b, a / b = 1.
+
+If the ones place is cancelled, this is a division by 10 (and thus a "trivial" example).
+
+Therefore, the digits must be canceled from different places: one from the ones place, one from the tens place.
+
+So now I have:
+[10a + b] / [10b + c] = a / c; and [10a + b] / [10c + a] = b / c
+Working on the first:
+10ac + bc = 10ab + ac
+10ac - 10ab = ac - bc
+10a(c - b) = c(a - b)
+
+Working on the second:
+10ac + bc = 10bc + ab
+10ac - 10bc = ab - bc
+10c(a - b) = b(a - c)
+
+Both are equivalent, just with different variables.
+
+I simply need to solve that equation over the integers with a, b, c = [1..9]. That's only 729 permutations. Assuming that a, b, c, ≠ 0 because if they did (and the zero did not cancel), I would have either infinity or zero.
+
+More math:
+10ac - 10ab = ac - bc
+10ac - ac = 10ab - bc
+9ac = 10ab - bc
+9ac = b(10a - c)
+^ That's easier to solve, maybe. Fewer operations (or actually not, both are 5)
+
+I can skip all a, b such that a = b.
+
+To find lowest common terms: divide each by GCD.
+
+
+With almost no optimization, program runs in about 0.34 milliseconds (340 microseconds). There *are* some other math things that can be done (heck, someone even solved it by hand), but I think I'll stop here.
+
+...but now, 0.27 ms.

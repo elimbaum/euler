@@ -1,0 +1,86 @@
+Euler 029
+Distinct Powers
+
+The original idea I had was to store all numbers in terms of their prime factorizations. That is, first compute the prime factorizations for n = 2..100 (quick), then use arrays to hold the prime factorization (exponents on primes).
+
+for example, the representation of 15^2 would take the factorization of 15... one 3, one 5; and increment the exponents: two 3, two 5.
+
+This way no actual powers have to be computed (100^100 is pretty big [1e20]). I can just write a simple check for array equality.
+
+However: what if I work the other way around? Starting at 100*100 = 10 000 (the total number of powers), what if I simply compute the number of distinct? There will be far fewer repeat powers than unique.
+
+Now I must ask: when is a power NOT distinct?
+
+Given a^b = c, c is not distinct if a is a perfect square.
+
+huh. really?
+
+For example, 9^3 is also 3^6.
+25^2 is also 5^4.
+4^4 is also 2^8
+
+Any other non-perfect square (where p != q):
+(p * q)^n = p^n * q^n
+
+15^4
+
+===== NOPE NOPE NOPENEOPNEOPNEOPENOPE ======
+
+not perfect square, but perfect root.
+
+8^18 = 512 ^ 6
+
+(granted that wouldn't be counted because 512 > 100)
+
+++++++++++++++
+restarting:
+++++++++++++++
+
+Given some power a^b = c, is this the unique representation of c (also a, b < 100)?
+
+That is, can we make some other a, b?
+
+
+a^bd also equals a^b^d
+
+So if (a^b) is less than 100, this is a duplicate somewhere.
+
+From the original: If b is COMPOSITE and does not exceed 100 as an exponent, then it is a duplicate.
+
+That means, however, I only have to check up to log(100)/log(a) for primes. So like even for small bases [2], I only check up to 6.
+
+So my hasSmallFactor() function can just check 2, 3, and 5.
+
+
+Maybe I'll start in python; optimize into C.
+
+NO NO NO
+not small factor! If it's a ROOT!
+
+
+I don't really know what's going on here.
+
+
+I got the solution (9183) through brute force, but my efficient solution still fails on some (where the simplest form is too big). I may need to revert the prime-factor array idea.
+
+#####
+
+I might be able to see if the exponent on the base (when prime factored) is not prime.
+
+#####
+
+I just tried a pretty complex solution which generates primes and the factors for many numbers. It then stores the factorization of each number a^b in a dictionary, and counts its length. I thought this would be efficient, but it is four times slower than the brute force solution (45ms vs 12ms).
+
+I need to look at the more mathematical part — there must be a pattern. I'll take a look at the graph of x vs countUnique(x)
+
+Quadratic equation fits well, but not perfectly, so it can be used to *predict*. Just shows that there is some regularity. Other interesting patterns... occasionally massive jumps; appear to be "sections" of the graph. But nothing else helpful.
+
+####
+
+Looking at the forum for ideas:
+One person said "I am not concerned with overflows, just the number of unique answers." True. I don't actually care *what* the value is. What if I used mod? It would have to be mod (max ^ 2). But then I risk collisions.
+
+Some of the "math" solutions aren't very general.
+
+Perhaps skip over values of a which are powers of smaller a... but only to a point, because their larger values will still be allowable.
+This is probably one to come back to. There are some very fast ones.

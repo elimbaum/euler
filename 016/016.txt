@@ -1,0 +1,307 @@
+ff.Project Euler 16
+
+
+Sum of digits of powers of 2.
+2^1000 sum of digits?
+
+x	2^x		sum of digits
+1	2		2
+2	4		4
+3	8		8
+
+4	16		7
+5	32		5
+6	64		9
+
+7	128		11
+8	256		13
+9	512		8
+
+10	1024		7
+11	2048		14
+12	4096		19
+13	8192		20
+
+14	16384	22
+15	32768	26
+16	65536	25
+
+general upwards trend.
+(separated into log10)
+
+for powers of 2 x (2 4 8 16, etc.), 2x-1:
+
+    x
+2^2 sum of digits is 4
+2^4 sum of digits is 2*4 - 1 = 7
+2^8 sum of digits is 2*7 - 1 = 13
+2^16 sum of digits is 2*13 - 1 = 25
+
+so I can find sum of digits 2^1024 just fine.
+
+2^1000 is ~10^300 or so... no regular calculator (or even language) can do that (to full precision). So I *need* a shortcut.
+
+
+1000	 = 2 * 2 * 2 * 5 * 5 * 5
+	 = 2^3 * 5^3
+	 = 10^3
+
+look into moduli?
+
+not a fair problem because numbers that don't matter (ones, tens places) do... so I can't do any remote ballparkization of the computation.
+
+The ones place follows a pattern: 2, 4, 8, 6; 2, 4, 8, 6
+No pattern in the other places, I believe.
+
+Do the sum of digits follow a pattern?
+2	4	8	7	5	9	11	13	8	7	14	19	20	22	26	25
+	+2	+4	-1	-2	+4	+2	+2	-5	-1	+7	+5	+1	+2	+4	-1
+
+i don't think so...
+
+
+wait a second... +2 +4 -1... it could be a REALLY long pattern.
+I'll need to calculate more.
+
+that's 2^2 --> 2^14
+
+period of 12?
+
+
+continuing the manual checks:
+
+17		131072		14
+18		262144		19
+19		524288			29
+
+20		1048576		31
+
+darn no pattern there... from 16 to 17 the pattern decreased by 11 ! that's new. then it jumps +10.
+
+
+still: short of a brute force calculation and digit sum, I have no idea.
+
+How about a broad pattern for all numbers, not just powers of 2?
+
+Before a number rolls over (i.e. 39 -> 40), big drop. then gradually increasing... then a drop. also applies to bigger rollovers: 99 -> 100, etc.
+
+so it is a modular equation, with a linear [?] offset. then I don't need to get the decimal representation of 2^1000, I can just do a direct bitwise mod.
+
+correction: probably a log10 offset.
+
+log10(2^1000) = 1000*log10(2) cool!
+		|--> quick calculation of base 10 length of number.
+
+
+LIST OF ALL N + SUM OF DIGITS
+n		∑d(n)
+1		1
+2		2
+3		3
+4		4
+5		5
+6		6
+7		7
+8		8
+9		9
+10		1
+11		2
+12		3
+13		4
+14		5
+15		6
+16		7
+17		8
+18		9
+19		10
+20		2
+21		3
+22		4
+23		5
+24		6
+25		7
+26		8
+27		9
+28		10
+29		11
+30		3
+.
+.
+.
+90		9
+91		10
+92		11
+93		12
+94		13
+95		14
+96		15
+97		16
+98		17
+99		18
+100		1
+101		2
+102		3
+103		4
+104		5
+105		6
+106		7
+107		8
+108		9
+109		10
+110		2
+111		3
+
+
+it's some sort of weird mod equation... has logs but also an offset, maybe a log offset?
+
+"Resets" every new place value - 10, 100, 1000, etc.
+increases within each place value.
+
+
+
+so it is a recursive modular equation involving floor. log comes up not in the offset but only when determining the number of recurses that are necessary. The offset itself is a series of mods; the more terms that are added, the more precise (and thus further out) the equation holds. 1 term holds 0-10, 2 terms hold 0-100, 3 terms hold 0-1000, etc. so to get to the required 10^301, there needs to be 301 recursive terms. Now: how to do huge mods, i.e. floor((x % 10^37)) where x is the number we are counting digits for (on the order of 10^301). Because of the floor we may be able to cheat.
+
+Next issue: huge moduli.
+I only have x in binary, 1000000 . . {1000 times} . . 00000
+10 in binary is 1010
+
+I can't *actually* do the math out (well I could, but I won't [python can do it w/ arbitrary length ints]).
+
+mod formula is:
+a % b	=	a - b * floor(a/b)
+
+because mod will only be multiples of 10, i can really cheat and do very little math... maybe? no, don't think so.
+
+n % (10^x) 	= n - (10^x) * floor(n / (10^x))
+
+
+
+nonononononono:
+the whole mod thing is just a clever way of extracting each digit individually... and then sum them together... so it's no better than just summing the digits themselves; i still need the full number.
+
+LAME!
+
+Look for better patterns.
+
+
+graphing it did not help.
+
+next idea... instead of looking for patterns in the sums, are there patterns in the digits themselves? then I can "compute" the number in the program.
+
+
+
+
+
+
+
+
+
+
+
+
+STOP
+
+I did the original table wrong (64 = 10, not 9...). Here it is, corrected:
+
+x	2^x	sum of digits
+0	1	1
+1	2	2
+2	4	4
+3	8	8
+
+4	16	7
+5	32	5
+6	64	10  --error was here
+
+7	128	11
+8	256	13
+9	512	8
+
+10	1024	7
+11	2048	14
+12	4096	19
+13	8192	20
+
+14	16384	22
+15	32768	26
+16	65536	25
+
+17	131072	14
+18	262144	19
+19	524288	29
+
+20	1048576	31
+
+
+So now I'll redo the pattern checking in the sum of digits:
+1
+2	+1
+4	+2
+8	+4
+7	-1
+5	-2
+10	+5	*2
+11	+1
+13	+2
+8	-4
+7	-1
+14	+7	*2
+19	+5
+20	+1
+22	+2
+26	+4
+25	-1
+14	-11
+19	+5
+29	+10
+31	+2
+
+
+ehh, not much. I though I would find something.
+
+
+oeis points out that the sum of the digits of the sum of the digits is cyclical (full collapse, into one digit): 1-2-4-8-7-5, etc.
+
+So that means I can determine what the overall sum is of 2^1000. oh boy.
+		-- resets at 2^996 (with 1),
+so 2^1000 sum sum is 7.
+
+great. I don't think that helps at all, except to check... which euler will do for me...
+
+wait, maybe it does help:
+
+7 =	16/61	25/52	34/43
+	1+6	2+5	3+4
+
+second digit sum needs to be 16, 25, 34, 43, 52, or 61.
+
+7 would therefore be the final sum.
+
+This is going somewhere. cool.
+
+2^1000 ~ 10^301. so at most, the sum could be 9*301 = 2709, at least, 301.
+
+Therefore the sum must be < ~ 2709 (probably four digits, if not three).
+
+The greatest possible 4-digit sum is 9999 = 36. Within our bounds (<2709), the greatest is 1999 = 28.
+
+But 2709 is a max... Statistically likely value is 301*5 or 1505.
+
+So the second digit sum needs to be 16 or 25 (<28), probably four digits but maybe 3.
+statistically, probably 4.
+
+
+RECAP: digitsum(digitsum(2^1000)) = 16 or 25.
+
+BUT: does this help? There are so many ways to make 16 or 25 in 3 or 4 digits.
+
+--> but less than 2709, so not too many. However still around a hundred, probably.
+
+
+Lacking patterns, I think I need to manually do the math. This was recommended on the forum... so I need a custom data type (array of digits) and perform the exponentiation 2^1000.
+
+So: 2*2*2*2, etc, 1000 times.
+
+Old school carry-multiplication, with an array.
+
+whatever.

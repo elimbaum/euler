@@ -1,0 +1,41 @@
+Euler 032
+Pandigital Products
+
+
+I am looking for numbers a, b, c such that:
+a * b = c
+& a, b, c contain each of the digits 1..9 *exactly once*
+
+Some math, first:
+digits(a) + digits(b) + digits(c) = 9
+floor(log(a)) + 1 + floor(log(b)) + 1 + floor(log(c)) + 1 = 9
+floor(log(a)) + floor(log(b)) + floor(log(c)) = 6
+floor(log(a)) + floor(log(b)) + floor(log(a * b)) = 6
+floor(log(a)) + floor(log(b)) + floor(log(a) + log(b)) = 6
+
+a, b, c must be:
+2, 3, 4 digits
+1, 4, 4 digits
+
+Use memorization to store what digits each number has [1..9999].
+
+Ignore numbers that contain zero (incl. powers of 10), or repeated digits.
+
+
+Two loop stages: first check a, b, c = 1, 4, 4; then a, b, c = 2, 3, 4.
+Loop min/max can be smallest/biggest pandigital! Lower/higher must have repeated digits. So:
+[ 2  ..9   ]
+[12  ..98  ]
+[123 ..987 ]
+[1234..9876]
+
+Pretty quick, even in python... Probably could be done <1ms in optimized C.
+
+
+Other ideas:
+
++ Skip multiples of 10 (duh) and 5. 5 * odd number = something ending in 5; 5 * even number = something ending in zero. But because 10 is a multiple of 5... just check mod 5!
+
++ Can I skip any other multiples? Can't think of anything now.
+
++ In the results, I have no numbers ending in 5 (above) and 1. DUH! The last digit won't change! That runs a bit faster.

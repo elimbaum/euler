@@ -1,0 +1,32 @@
+PROBLEM:
+
+The prime factors of 13195 are 5, 7, 13 and 29.
+
+What is the largest prime factor of the number 600851475143 ?
+
+========================================================
+
+Sure, there is the brute force approach. We would only need to test up to
+floor(sqrt(600851475143)), or 775146.
+
+The LARGEST prime factor.
+
+The answer points out: except for two, all primes are odd. so instead of adding one, do this:
+2
+3 +2
+5 +2
+7 +2, etc.
+
+(i.e., test if even (div 2) separately, then do
+	range(3, upperLimit, 2) -- fixed in 003.better.py. But not in this way—while loop with += 2.
+	
+I did, however, get the square root part right!
+yay.
+
+so nothing *too* fancy in this problem... prime factorization is sad, because you can't. though with quantum computers...!
+
+[answer is 6857]
+
+PROBLEM: doesn't always work. often returns composite numbers. (probably happens if a composite factors > the largest prime factor exists).
+Please fix.
+This is fixed in 003.better.py

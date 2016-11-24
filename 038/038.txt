@@ -1,0 +1,51 @@
+Euler 038
+Pandigital multiples
+
+What is the largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer with (1,2, ... , n) where n > 1?
+
+The highest n would be 9, where the integer must be 1 (to maintain the other constraints). Presumably the concatenations must go in order; therefore, this gives 123456789. [This is the lower bound].
+
+The next integer, 2, gives the following:
+2 * 1 = 2	(2)
+2 * 2 = 4	(24)
+2 * 3 = 6	(246)
+2 * 4 = 8	(2468)
+2 * 5 = 10	(246810)
+2 * 6 = 12	(24681012)
+2 * 7 = 14	(2468101214) [TOO LONG. 10 digits]
+
+neglecting the 0 and repeated digits, n = 7 was already too long. For 3:
+
+3 * 1 = 3	(3)
+3 * 2 = 6	(36)
+3 * 3 = 9	(369)
+3 * 4 = 12	(36912)
+3 * 5 = 15	(3691215)
+3 * 6 = 18	(369121518) [9 digits]
+
+Max. n drops pretty quickly.
+
+On the other side: min. n is 2. This means max z is such that digits(z) + digits(2z) = 9
+floor(log(z)) + 1 + floor(log(2z)) + 1 = 9
+floor(log(z)) + floor(log(2z)) = 7
+floor(log(z)) + floor(log(z) + log(2)) = 7
+
+Since log(2) ~= 0.301, the second term can be equal to or 1 more than the first.
+Let Z = floor(log(z))
+
+Z + Z = 7 -> Z is an integer, cannot be 3.5
+OR
+Z + Z + 1 = 7
+Z = 3
+
+So max z is 4 digits long. Since 2z must therefore be 5 digits, 9999 >= z >= 5000.
+
+I should start checking at z = 9876 (largest 4-digit pandigital) and move down towards 5000.
+But where do I go from there?
+
+I'll need a z such that the digits of z, 2z, and 3z give 9. This works for 333 (start at 329) >= z >= 100.
+
+I'll probably have found it by now. If not, I'll return with some thoughts on n = 4. Might be more difficult, because there are more variables.
+
+
+POST SOLVE: the answer, as expected, was in the 4-digit range. So no further processing must be done. Runs in less than 2 ms (python).

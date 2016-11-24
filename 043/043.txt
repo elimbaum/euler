@@ -1,0 +1,181 @@
+Project Euler 43
+Substring Divisibility
+
+The problem isn't as clear as I would like it to be, but if I take it to be exactly that pattern (divisibility by increasing primes):
+
+d2d3d4 is divisible by 2
+d3d4d5 is divisible by 3
+d4d5d6 is divisible by 5
+d5d6d7 is divisible by 7
+d6d7d8 is divisible by 11
+d7d8d9 is divisible by 13
+d8d9d10 is divisible by 17
+
+Find the sum of all 0 to 9 pandigital numbers with this property.
+
+So immediately, some restrictions:
+d4 must be even
+d3 + d4 + d5 must be divisible by 3
+d6 must be 0 or 5
+
+... but not much else without messy divisibility rules.
+
+Might be more a brute-force style solution... generate pandigitals (using the -9 trick)
+
+No matter what small changes I make, I can't this algorithm to work... it won't find any such numbers, let alone ones that are pandigitals, in an appreciable amount of time. I need a new algorithm. It works (i.e. if I start it at the example number given), but is clearly many orders of magnitude too slow.
+
+Maybe some algebra is needed?
+
+...or some modular algebra!
+(below, = is modular equivalence)
+
+(a + b) mod c = a mod c + b mod c
+
+(ab) mod c = a mod c * b mod c
+
+Therefore,
+
+(100 * a + 10 * b + c) mod d = 100 mod d * a mod d + 10 mod d * b mod d + c mod d
+
+And I want that to equal 0 for all a, b, c, and d.
+
+But this is interesting. It shows (as I know ) that for d = 2, 5 only the last digit c must be checked.
+
+For all other d, 100 mod d and 10 mod d are nonzero constants... if the sum is to equal 0, only {a, b, c} mod d must be. That is — I don't need to concatenate the numbers. Only the individual digits must be checked.
+
+I think?
+
+nope, mod can be done multiple times. So that equation needs to equal not 0 but 0, 17, 34, etc.
+
+So I can precompute 100 mod d, 10 mod d. Then
+
+(100 mod d * a mod d + 10 mod d * b mod d + c mod d) mod d = 0
+
+That still requires checking every number (most).
+
+d = 2, 5 are already taken care of
+
+d = 3: sum of digits div 3
+
+d = 7:
+(2 * a mod 7 + 3 * b mod 7 + c mod 7) mod 7 = 0
+
+d = 11:
+(a mod 11 + 10 * b mod 1 + c mod 11) mod 11 = 0
+
+That doesn't seem to be helping. Perhaps the end will help.
+d = 17:
+(15 * a mod 17 + 10 * b mod 17 + c mod 17) mod 17 == 0
+max: 15 * 9 + 10 * 9 + 9 = 234
+
+but effectively (15a + 10b + c) mod 17
+
+hmm, no that's not working either... I can make any multiple of 17 with that construction; no restrictions.
+
+Perhaps assemble arrays of multiples of 2..17, and look for where the first two of one align with the last two of the next. (no repeating digits for pandigital!) We are looking for where (m15) % 100 = (m17) / 10.
+
+mult. 15
+015
+045
+075
+105
+120
+135
+150
+165
+180
+195
+210
+240
+270
+285
+315
+345
+360
+375
+390
+405
+420
+435
+450
+465
+480
+495
+510
+540
+570
+615
+630
+645
+675
+690
+705
+720
+735
+750
+765
+780
+795
+810
+825
+840
+870
+915
+930
+945
+960
+975
+
+pattern: every multiple of 5.
+
+mult. 17
+017
+034
+051=
+068
+085
+102=
+136
+153=
+170
+187
+204=
+238
+289
+306=
+340
+357=
+374
+391
+408=
+425
+459=
+476
+493
+510
+527
+561
+578
+612
+629
+680
+697
+714
+731
+748
+765
+782
+816
+850=
+867
+884
+901=
+918
+935
+952=
+969
+
+=: found in 15
+
+
+etc. The computer can probably carry this on itself. Starting at 2, find all allowed 3-seg strings. Then find matching div 3s... div 5s, etc.

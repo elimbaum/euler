@@ -1,0 +1,7 @@
+Project Euler 006
+
+[Calculator]
+
+Asking for LCM of natural numbers < 20.
+
+Done on calculator.

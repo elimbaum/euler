@@ -1,0 +1,33 @@
+Euler 36
+Double-base palindromes
+
+Find the sum of all numbers < 1M palindromic in base 10 and base 2
+
+[ No leading 0s ]
+
+I'd like to do something with math. But because DIGITS are involved, it'll just be a mess of mods and logs.
+
+For reference, 1M in binary is 20 digits long.
+
+Because of binary... C will probably be nice.
+
+Matt points out that because numbers cannot have LEADING zeros, they can therefore not have TRAILING zeros. In binary, this means *all numbers must be odd*.
+
+To generate palindromes: generate first half; flip and merge. Also allow for overlap. Don't do this in binary, but with bits.
+Then convert to decimal SURPRISE ALREADY DONE! Check if palindromic... this was problem 004, which I lost.
+
+Looking at the 004 overview: their isPalindrome(n) function checks if n is equal to its reverse. This is probably the easiest (rather than messing with centers).
+
+Looking at my 004 notes: I had discovered the divisible-by-11 rule for palindromes. HOWEVER this only works for even-length (in base 10) palindromes. I could use this for evens, but not for odds (for which there appears to be no pattern).
+
+Right now, I have a working idea of a brute-force solution (run through binary strings length 1 - 10, alternate overlap, combine, check base 10). Any optimizations?
+
+Side note: 2^10 = 1024, / 2 (no evens) * 2 (overlap) = 1024 total binary palindromes. not too bad.
+Actually because of the no-evens trick, just generate binary strings 0..2^9, then double and add 1.
+Or just start at 1 and increment by 2.
+
+
+After messing around for a while with bit shifting:
++ For some reason, there is NO NEED to consider the overlap version. That is, only even numbers of binary digits. ***NO NO NO I think the next bullet point took care of them.
++ I must count all variations of internal 0s. So for "1", the half-palindromes must include "01", "001", etc. all the way up to the maximum length.
++ Runs in 0.2 ms, so that's nice.

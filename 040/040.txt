@@ -1,0 +1,74 @@
+Euler 40
+Champernowne's constant
+
+Some quick reasoning:
+base-10 exponent	number of numbers	length	total length (end of section)
+0 (1 - 9)		9			9	9
+1 (10 - 99)		90			180	189
+2 (100 - 999)		900			2700	2889
+3 (1000 - 9999)		9000			36000	38889
+4 (10000 - 99999)	90000			450000	488889
+5 (1M - [10M - 1])	900000			5.4M	5888889
+
+(Interesting how, with the exception of the first, the total length's first digit increments by one, the last digit is a 9, and all in-between digits are an 8. Therefore the next total length would be 68888889).
+
+Each "subsection" with base-10 exponent n has a total length of:
+[10 ^ (n + 1) - 10 ^ n] * len(10 ^ n)
+= [10 ^ (n + 1) - 10 ^ n] * (n + 1)
+= [10 ^ n * 10 ^ 1 - 10 ^ n] * (n + 1)
+= [9 * 10 ^ n] * [n + 1]
+
+So one thing I might do at start is create an array of either 10 ^ n, or an array of 9 * 10 ^ n.
+
+When n = 5, the subsection length is 5.4 million. However, the maximum digit requested is the millionth, I need not go any farther than that.
+d_1	is in n = 0
+d_10	is in n = 1
+d_100	is in n = 1
+d_1k	is in n = 2
+d_10k	is in n = 3
+d_100k	is in n = 4
+d_1M	is in n = 5
+
+This is sort of like problem 024, factorial permutations.
+
+To get the 100,000th digit:
+1] 100,000th digit must reside in n = 4.
+2] n = 0 .. 3 take up 38889 digits. Therefore 100,000 is the (adjusted) 61,111st digit.
+4] Each number in n = 4 is 5 digits long. ceil(61111 / 5) = 12223rd number.
+5] Number is actually 12223 + 10000 = 22223. 61111 % 5 = 1, so the first digit. Which is a 2.
+
+Repeat this process for the others.
+
+-- Work --
+1	4
+2	3
+3	2
+4	1
+0 -> 5 -> 0
+
+
+doesn't work... grr
+
+
+
+=== BREAK ===
+
+I have returned after a busy 3-month hiatus. I'll read through my old notes but may start over.
+
+Yep, I'm restarting my code, partially using old notes.
+
+
+Cheating off of wolfram alpha (which has digit 2 coming after the decimal, one off of euler)  -
+
+n	digit	[use (n+1)th digit]
+1	1
+10	1	[10, first digit]
+101	5	[55, first digit]
+1001	3	[370, first digit]
+10001	7	[2777, third digit]
+100001	
+
+
+well that took a while. TONS of off-by-one errors.
+
+Final answer: 210.

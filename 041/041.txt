@@ -1,0 +1,56 @@
+Project Euler 41
+Pandigital prime
+
+What is the largest n-digit pandigital prime that exists?
+
+
+The qualification of n-digit makes me think maybe n ≠ 9. However the problem wouldn't change very much if n = 9 or 8 or 7.
+
+The problems of both prime numbers and pandigital numbers has already been handled (pandigital in 32, 38). The naive approach would be to loop through all numbers starting with 987654321 and check if each is both pandigital and prime.
+
+However, there may be a way of generating pandigitals rather than checking for them.
+
+to begin, 9-digit pandigitals in decreasing order:
+
+987654321  - 9 =
+987654312  - 81 =
+987654231  - 18 =
+987654213  - 81 =
+987654132  - 9 =
+987654123  - 702 =
+987653421  - 9 =
+987653412  - 171 =
+987653241  - 27 =
+987653214  - 72 =
+987653142  - 18 =
+987653124
+
+etc.
+
+Apparently the difference between any two pandigital numbers is a multiple of 9. Is there a pattern in these differences?
+
+9 81 18 81 9 702 9 171 27 72 18
+- dividing by 9 -
+1 9 2 9 1 78 1 19 3 8 2
+
+That doesn't look familiar. However even if I can't find a pattern I can still move at 9x the speed (and can also ignore all even pandigitals!)
+
+[oeis finds nothing]
+
+It might be some sort of weird fractal pattern, but nothing that I can see...
+
+
+I almost wasted tons of time!
+
+Remember those old divisibility rules? One of them concerned the sum of the digits... if the sum of the digits is divisible by 3 or 9, than so is the number.
+
+Therefore, for any 9-digit pandigital, sum of digits = 45 and is therefore NEVER PRIME.
+for any 8-digit pandigital, sum of digits = 36 and is therefore NEVER PRIME.
+
+for andy 7-digit pandigital, sum of digits = 28, so it could be prime.
+
+So I'll actually start at 7654321, and do the subtract 9 trick. There are only 5040 pandigitals to be checked, and only about 6.4M numbers total.
+
+[[[ would it be faster to generate pandigitals off string manipulation and then cast to int? maybe. ]]]
+
+
