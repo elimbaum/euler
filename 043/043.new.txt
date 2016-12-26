@@ -1,0 +1,95 @@
+Project Euler 43
+Substring Divisibility
+======================
+Revisited, one and a half years later.
+
+Pandigital number such that the substring
+d_(i+1) d_(i+2) d_(i+3)
+is divisible by ith prime.
+
+so
+d2d3d4  is divisible by 2
+d3d4d5  is divisible by 3
+d4d5d6  is divisible by 5
+d5d6d7  is divisible by 7
+d6d7d8  is divisible by 11
+d7d8d9  is divisible by 13
+d8d9d10 is divisible by 17
+
+where digits are numbered left to right (d1d2d3...d10)
+
+Number is a 0 to 9 pandigital number.
+
+d4 is even
+d6 is either 5 or 0
+
+Previous solution, I believe, used the tactic of finding all multiples of 17, then cross-referencing with multiples of 13, etc.
+
+d8d9d10 % 17 = 0
+d7d8d9  % 13 = 0
+
+a b c d e f g h i j
+
+(100b + 10c + d) % 2 = 0
+	c % 2 = 0
+(100c + 10d + e) % 3 = 0
+	(c + d + e) % 3 = 0
+(100d + 10e + f) % 5 = 0
+	f % 5 = 0
+(100e + 10f + g) % 7 = 0
+	(2e + 3f + g) % 7 = 0
+(100f + 10g + h) % 11 = 0
+	(f + 10g + h) % 11 = 0
+(100g + 10h + i) % 13 = 0
+	(9g + 10h + i) % 13 = 0
+(100h + 10i + j) % 17 = 0
+	(15h + 10i + j) % 17 = 0
+
+this smells like chinese remainder theorem lol
+
+Let me look at the last two:
+9g + 10h + i = 0 (mod 13)
+15h + 10i + j = 0 (mod 17)
+
+17 (9g + 10h + i) = 0 (mod 13)
+				  = 0 (mod 17)
+13 (15h + 10i + j) = 0 (mod 17)
+				   = 0 (mod 13)
+And both thus equal zero mod 13 * 17 = 221
+
+17 (9g + 10h + i) + 13 (15h + 10i + j) = 0 (mod 221)
+153g + 170h + 17i + 195h + 130i + 13j = 0 (mod 221)
+153g + 144h + 147i + 13j = 0 (mod 221)
+
+hmm, not helping much. iterative might be the best bet.
+
+
+So then the alternative solution:
+I find bcd is divisible by the (i+1)th prime.
+need to check if there exists a such that abc is divisible by ith prime.
+
+I know b, c, p.
+
+100a + 10b + c = 0 mod p
+100a = -(10b + c) mod p
+(100 % p) a = -(10b + c) mod p
+
+Only 10 values 0..9 for a.
+
+
+
+What about full-span number?
+n = 1e9 * a + 1e8 * b + 1e7 * c + 1e6 * d + 1e5 * e + 1e4 * f + 1e3 * g + 1e2 * h + 1e1 * i + 1e0 * j
+
+n % 17 = (1e9 * a + 1e8 * b + 1e7 * c + 1e6 * d + 1e5 * e + 1e4 * f + 1e3 * g) mod 17
+	   = 7a + 16b + 5c + 9d + 6e + 4f + 14g
+(n - j) / 10 % 13, etc.
+
+
+
+Iterative approach: only have ~58 multiples of 17 0..1000.
+Put those in a dictionary.
+
+ah damn and these also need to be pandigital.
+
+
