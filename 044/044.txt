@@ -1,0 +1,23 @@
+Project Euler 44
+Pentagon Numbers
+
+Find the pair of pentagonal numbers, Pj and Pk, for which their sum and difference are pentagonal and D = |Pk − Pj| is minimised; what is the value of D?
+
+x is pentagonal if 
+sqrt(24 x + 1) = 5 (mod 6)
+
+Putting ordering restrictions on the pair of pentagonal numbers, the maximum difference will be P_n - P_1 = P_n - 1.
+
+The minimum difference will be between two adjacent; namely, P_n and P_(n-1)
+P_n - P_(n-1)
+= 3n - 2
+
+Ah! But if P_j + P_k = P_n, then
+P_n - P_k = P_j and
+P_n - P_j = P_k
+
+upper bound?
+
+3n - 2 = m(3m - 1)/2
+6n - 4 = m(3m - 1)
+
