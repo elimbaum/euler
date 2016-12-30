@@ -21,9 +21,14 @@ m(m+1) = 2n(2n - 1)
 m^2 + m - 2n(2n - 1) = 0
 -> m = 2n - 1
 
+2n = m + 1
+n = (m + 1) / 2
+
 So this reduces to find the next triangle number that is also pentagonal.
 
 Starting at T285.
+n = 285
+m = 165
 
 Same trick?
 
@@ -31,3 +36,48 @@ n(n+1)/2=m(3m-1)/2
 n(n+1)=m(3m-1)
 
 m = (1 + sqrt(1 + 12n + 12n^2)) / 6
+
+=> The next triangle number that is also pentagonal is also the next pentagonal number that is also triagular. Since the pentagonal density is lower, it will be faster to find there.
+
+Furthermore, we can simplify the calculation of the squareoot.
+
+For T285, 1 + 12n + 12n^2 = 978121; sqrt = 989
+
+Restrictions:
++ sqrt() = 5 (mod 6)
++ squared value must have integral solution to quadratic
++ so therefore must be 1 (mod 12)
+
+By the same process as above,
+
+n = (sqrt[1 - 4m + 12m^2] - 1) / 2
+
+!!
+This shows that sqrt() term must be odd.
+odd number squared is odd. even squared is even.
+
+Thus 1 - 4m + 12m^2 = 12m^2 - 4m + 1
+must too be odd.
+
+So 12m^2 - 4m = 4m(3m - 1)
+is even. But of course.
+
+use integer square root; fail if not? nah.
+
+
+
+Actually, next triangular won't necessarily be next hexagonal.
+h(2h - 1) = p(3p - 1) / 2
+2h (2h - 1) = p (3p - 1)
+-> h = (sqrt(1 - 4p + 12p^2) + 1) / 4
+
+Very similar.
+
+But the hexagon numbers are less sparse than the pentagonal! Use the inverse.
+
+
+
+BETTER VERSION!
+Pn+1 - Pn = 3n + 1
+Hn+1 - Hn = 4n + 1
+
