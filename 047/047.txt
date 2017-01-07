@@ -1,0 +1,41 @@
+Project Euler 047
+Distinct Prime Factors
+
+General problem:
+Find the first n consecutive integers to have n distinct prime factors.
+
+n = 2
+14 = 2 * 7
+15 = 3 * 5
+
+n = 3
+644 = 2^2 *  7 * 23
+645 = 3   *  5 * 43
+646 = 2   * 17 * 19
+
+n = 4
+???
+
+
+
+All primes, with the exception of 2 and 3, are of the form 6k +/- 1
+
+Since we are checking for sequences of n consecutive, only have to check every n numbers. If it has n prime factors, look around; if not, continue.
+
+Checking for prime factors: divide out all 2 and 3. Add to a set.
+
+Keep a dictionary of previously factored numbers.
+n -> {set of distinct prime factors}
+
+and maybe just set union.
+
+While not all 6k±1 are prime, any that are composite will have a prime factor already seen by previous checks. Thus the only "primes" that will divide n will be themselves prime.
+
+Lowest possible n will be product of first n primes
+n = 2: 2 * 3 = 6
+n = 3: 2 * 3 * 5 = 30
+n = 4: 2 * 3 * 5 * 7 = 210
+
+
+This is very slow!
+Better to sieve & check, continuously

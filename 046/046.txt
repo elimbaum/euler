@@ -1,0 +1,118 @@
+Project Euler Problem 046
+Goldbach's other conjecture
+
+
+================
+
+It was proposed by Christian Goldbach that every odd composite number can be written as the sum of a prime and twice a square.
+
+9 = 7 + 2×1^2
+15 = 7 + 2×2^2
+21 = 3 + 2×3^2
+25 = 7 + 2×3^2
+27 = 19 + 2×2^2
+33 = 31 + 2×1^2
+
+It turns out that the conjecture was false.
+
+What is the smallest odd composite that cannot be written as the sum of a prime and twice a square?
+
+================
+
+There are multiple possibilities for each, it appears. For example, 
+33 = 31 + 2 * 1^2
+   = 23 + 2 * 2^2
+
+One algorithm would be:
+	[ given an odd number n ]
+	for valid (?) i:
+		p = n - 2 * i * i
+		if p is prime, found one
+		if not, try next i
+
+Valid:
+n = p + 2i^2
+minimum prime is 2
+n = 2 + 2i^2
+n - 2 = 2i^2
+i = sqrt((n - 2) / 2)
+n is odd, so minimum prime is actually 3.
+i = floor(sqrt((n - 3) / 2))
+
+This smells like dynamic programming, however.
+
+Is there a pattern?
+
+2k + 1 = p + 2i^2
+2k + 1 + 2 = p + 2i^2 + 2
+2k + 3 = p + 2(i^2 + 1)
+i^2 + 1 is usually not a square, except when i = 0. But then n is prime, which is a contradiction.
+
+Twin primes would help, but not enough.
+
+!! Look at the difference of the primes though. Not all primes will work.
+No, maybe they should.
+
+sqrt(n - 5 / 2) could well have an integer solution for composite odd n.
+sqrt(2k + 1 - 5 / 2)
+sqrt(2k - 4 / 2)
+sqrt(k - 2)
+
+k - 2 = 9
+k = 11
+n = 23, not composite
+
+k - 2 = 16
+k = 18
+n = 37, not composite
+damn.
+
+k - 2 = 25
+k = 27
+n = 55
+thank you
+
+
+for higher numbers, difference between most consecutive composite odds will be 2, since twin primes get rarer.
+
+
+
+Could do the reverse. Smartly iterate through primes + squares, and store those composite odds that are found.
+
+But these might not necessarily be composite!
+
+Trying more:
+ 9 =  7 + 2 * 1^2
+15 =  7 + 2 * 2^2
+21 =  3 + 2 * 3^2
+25 =  7 + 2 * 3^2
+27 = 19 + 2 * 2^2
+33 = 31 + 2 * 1^2
+35 = 17 + 2 * 3^2
+39 =  7 + 2 * 4^2
+45 = 13 + 2 * 4^2
+49 = 17 + 2 * 4^2
+
+2k + 1 - 2 * i^2 = prime
+2(k + 1 - i^2) = prime
+
+But probably more efficient to generate primes; but up to what bound?
+
+
+
+Trying to solve
+n = p + 2c^2
+There will be on order sqrt(n) valid values of c.
+Primality check is sqrt(n)
+Time complexity for n is O(n)
+To check m odd numbers, O(mn).
+
+Precompute primes, up to some limit; if we go to high, find more
+Find p primes initially
+
+Generate primes p_1 ... p_k. primality check is O(sqrt(p_i))
+total time is O(k sqrt(p))
+
+ok fuck it time to learn miller rabin!
+
+
