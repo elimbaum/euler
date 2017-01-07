@@ -1,0 +1,30 @@
+Project Euler 049
+Prime permutations
+
+The arithmetic sequence, 1487, 4817, 8147, in which each of the terms increases by 3330, is unusual in two ways: (i) each of the three terms are prime, and, (ii) each of the 4-digit numbers are permutations of one another.
+
+There are no arithmetic sequences made up of three 1-, 2-, or 3-digit primes, exhibiting this property, but there is one other 4-digit increasing sequence.
+
+What 12-digit number do you form by concatenating the three terms in this sequence?
+
+
+Reformulating:
+Looking for primes
+p, p + k, p + 2k
+such that all three are permutations of eachother.
+where p >= 1000 and p + 2k < 10000
+
+The smallest four digit prime is 1009, and the largest is 9973.
+Thus maximum k is 4482.
+
+In general, maximum k is (9973 - p) / 2
+
+Each 4 digit prime will have at most 4! = 24 permutations; less for repeat digits. Probably best to check all permutations for linearity.
+
+Process:
+generate primes
+	generate all permutations of prime
+	remove prime itself from permutations
+	for each permutation greater than prime
+		if (2 * perm - prime) in perms
+		return
