@@ -28,3 +28,6 @@ generate primes
 	for each permutation greater than prime
 		if (2 * perm - prime) in perms
 		return
+
+
+Update: eppstein sucks!

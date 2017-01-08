@@ -68,12 +68,11 @@ def rwh_prime_gen(n):
 			sieve[i * i // 2::i] = [False] * ((n - i * i - 1) // (2 * i) + 1)
 
 	for i in range(1, n // 2):
-		if sieve[i]: yield 2 * i + 1 
+	 	if sieve[i]: yield 2 * i + 1 
 
 #@profile
-def maxSum():
-	prime_deque = deque(rwh_prime_gen(UPPER_BOUND))
-
+def maxSum(N):
+	prime_deque = deque(rwh_prime_gen(N))
 	prime_set = set(prime_deque)
 
 	maxlength = 0
@@ -90,23 +89,23 @@ def maxSum():
 			#print("\t{}".format(q))
 			total += q
 			length += 1
-			if total > UPPER_BOUND: break
+			if total > N: break
 			if length > maxlength and total in prime_set:
 				#print("{} len {} = {}".format(p, length, total))
 				maxlength = length
 				maxsum = total
 				maxprime = p
 
-		# consecutive length < UPPER_BOUND is non-increasing. if maxlength seen
-		# exceeds length of this iteration, there's no way we'll ever find a
-		# new record. stop checking.
+		# consecutive length < N is non-increasing. if maxlength seen exceeds
+		# length of this iteration, there's no way we'll ever find a new
+		# record. stop checking.
 		if length < maxlength: break
 
 	return (maxprime, maxlength, maxsum)
 
 
 start = time.time()
-p, length, total = maxSum()
+p, length, total = maxSum(UPPER_BOUND)
 end = time.time()
 print("start {} has sum len {} = {}".format(p, length, total))
 print("Time: {} ms".format(round(1000 * (end - start), 3)))
